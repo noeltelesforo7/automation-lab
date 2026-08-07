@@ -1,0 +1,55 @@
+name: Project Status Sync
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+
+  sync-status:
+
+    if: github.event.pull_request.merged == true
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Show event information
+        run: |
+          echo "PR Number: ${{ github.event.pull_request.number }}"
+          echo "Base Branch: ${{ github.base_ref }}"
+          echo "Head Branch: ${{ github.head_ref }}"
+
+      - name: Determine target status
+        run: |
+
+          if [[ "${{ github.base_ref }}" == "develop" ]]; then
+            echo "STATUS=In Development" >> $GITHUB_ENV
+
+          elif [[ "${{ github.base_ref }}" == "staging" ]]; then
+            echo "STATUS=In Staging" >> $GITHUB_ENV
+
+          elif [[ "${{ github.base_ref }}" == "main" ]]; then
+            echo "STATUS=Done" >> $GITHUB_ENV
+
+          else
+            echo "STATUS=UNKNOWN" >> $GITHUB_ENV
+
+          fi
+
+      - name: Show status mapping
+        run: |
+          echo "Mapped status: $STATUS"
+
+      - name: Verify Project Token
+        env:
+          PROJECT_PAT: ${{ secrets.PROJECT_PAT }}
+        run: |
+
+          if [ -z "$PROJECT_PAT" ]; then
+            echo "PROJECT_PAT missing"
+            exit 1
+          fi
+
+          echo "PROJECT_PAT detected"
