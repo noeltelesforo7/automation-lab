@@ -1,6 +1,7 @@
 name: Update Project Status
 
 on:
+  workflow_dispatch:
   pull_request:
     types:
       - closed
