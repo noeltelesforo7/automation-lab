@@ -55,6 +55,16 @@ jobs:
         run: |
           echo "Selected Option ID: $OPTION_ID"
 
+      - name: Prepare Project Update
+        run: |
+          echo "PROJECT_ID=${{ vars.PROJECT_ID }}" >> GITHUB_ENV
+          echo "FIELD_ID=${{ vars.STATUS_FIELD_ID }}" >> GITHUB_ENV
+
+          echo "Project ready:"
+          echo "Project ID: ${{ vars.PROJECT_ID }}"
+          echo "Field ID: ${{ vars.STATUS_FIELD_ID }}"
+          echo "Option ID: $OPTION_ID"
+
       - name: Show status mapping
         run: |
           echo "Mapped status: $STATUS"
