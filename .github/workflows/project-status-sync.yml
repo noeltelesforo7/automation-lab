@@ -135,9 +135,9 @@ jobs:
             -H "Authorization: Bearer $PROJECT_PAT" \
             -H "Content-Type: application/json" \
             -X POST https://api.github.com/graphql \
-            -d "{
-              \"query\":\"query { node(id:\\\"PVTI_lAHOErY1784Bfm-Yzg1lcA0\\\") { ... on ProjectV2Item { fieldValues(first:20) { nodes { __typename ... on ProjectV2ItemFieldSingleSelectValue { name optionId field { ... on ProjectV2SingleSelectField { id name } } } } } } } }\" 
-            }"
+            -d '{
+              "query":"query { node(id:\"PVTI_lAHOErY1784Bfm-Yzg1lcA0\") { ... on ProjectV2Item { fieldValues(first:20) { nodes { __typename ... on ProjectV2ItemFieldSingleSelectValue { name optionId field { ... on ProjectV2SingleSelectField { id name } } } } } } } }"
+            }'
 
       - name: Update Project Item Status
         env:
