@@ -38,6 +38,23 @@ jobs:
 
           fi
 
+      - name: Determine Status Option ID
+        run: |
+            if [[ "${{ github.base_ref }}" == "develop" ]]; then
+                echo "OPTION_ID=${{ vars.STATUS_IN_DEVELOPMENT }}" >> $GITHUB_ENV
+
+            elif [[ "${{ github.base_ref }}" == "staging" ]]; then
+                echo "OPTION_ID=${{ vars.STATUS_IN_STAGING }}" >> $GITHUB_ENV
+
+            elif [[ "${{ github.base_ref }}" == "main" ]]; then
+                echo "OPTION_ID=${{ vars.STATUS_DONE }}" >> $GITHUB_ENV
+
+            fi
+
+      - name: Show Option ID Mapping
+        run: |
+          echo "Selected Option ID: $OPTION_ID"
+
       - name: Show status mapping
         run: |
           echo "Mapped status: $STATUS"
