@@ -101,3 +101,15 @@ jobs:
                 -H "Content-Type: application/json" \
                 -X POST https://api.github.com/graphql \
                 -d "{\"query\":\"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { title id } } }\"}"
+
+      - name: Discover Project Items
+        env:
+          PROJECT_PAT: ${{ secrets.PROJECT_PAT }}
+          PROJECT_ID: ${{ vars.PROJECT_ID }}
+        run: |
+
+          curl -s \
+            -H "Authorization: Bearer $PROJECT_PAT" \
+            -H "Content-Type: application/json" \
+            -X POST https://api.github.com/graphql \
+            -d "{\"query\":\"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { items(first: 20) { nodes { id content { ... on Issue { number title } } } } } } }\"}"
