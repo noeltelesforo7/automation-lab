@@ -42,6 +42,16 @@ jobs:
         run: |
           echo "Mapped status: $STATUS"
 
+      - name: Show Project Configuration
+        run: |
+          echo "Project ID: ${{ vars.PROJECT_ID }}"
+          echo "Field ID: ${{ vars.STATUS_FIELD_ID }}"
+          echo "Backlog: ${{ vars.STATUS_BACKLOG }}"
+          echo "In Development: ${{ vars.STATUS_IN_DEVELOPMENT }}"
+          echo "Ready For QA: ${{ vars.STATUS_READY_FOR_QA }}"
+          echo "In Staging: ${{ vars.STATUS_IN_STAGING }}"
+          echo "Done: ${{ vars.STATUS_DONE }}"
+
       - name: Verify Project Token
         env:
           PROJECT_PAT: ${{ secrets.PROJECT_PAT }}
