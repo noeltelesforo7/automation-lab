@@ -149,6 +149,6 @@ jobs:
             -H "Content-Type: application/json" \
             -X POST https://api.github.com/graphql \
             -d '{
-              "query":"mutation { updateProjectV2ItemFieldValue(input:{ projectId:\"PVT_kwHOFrY1784Bfm-Y\" itemId:\"PVTI_lAHOErY1784Bfm-Yzg1lcA0\" fieldId:\"${{ vars.STATUS_FIELD_ID }}\" value:{ singleSelectOptionId:\"47fGc0w0\" } }) { projectV2Item { id } } }"
+              "query":"mutation { updateProjectV2ItemFieldValue(input:{ projectId:\"PVT_kwHOFrY1784Bfm-Y\" itemId:\"PVTI_lAHOErY1784Bfm-Yzg1lcA0\" fieldId:\"${{ vars.STATUS_FIELD_ID }}\" value:{ singleSelectOptionId:\"$OPTION_ID\" } }) { projectV2Item { id } } }"
             }'
         
