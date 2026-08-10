@@ -142,13 +142,21 @@ jobs:
       - name: Update Project Item Status
         env:
           PROJECT_PAT: ${{ secrets.PROJECT_PAT }}
+          STATUS_FIELD_ID: ${{ vars.STATUS_FIELD_ID }}
         run: |
+
+          QUERY=$(cat <<EOF
+          {
+            "query":"mutation { updateProjectV2ItemFieldValue(input:{ projectId:\"PVT_kwHOFrY1784Bfm-Y\" itemId:\"PVTI_lAHOErY1784Bfm-Yzg1lcA0\" fieldId:\"$STATUS_FIELD_ID\" value:{ singleSelectOptionId:\"$OPTION_ID\" } }) { projectV2Item { id } } }"
+          }
+          EOF
+          )
+
+          echo "$QUERY"
 
           curl -s \
             -H "Authorization: Bearer $PROJECT_PAT" \
             -H "Content-Type: application/json" \
             -X POST https://api.github.com/graphql \
-            -d "{
-              "query":"mutation { updateProjectV2ItemFieldValue(input:{ projectId:\"PVT_kwHOFrY1784Bfm-Y\" itemId:\"PVTI_lAHOErY1784Bfm-Yzg1lcA0\" fieldId:\"${{ vars.STATUS_FIELD_ID }}\" value:{ singleSelectOptionId:\"$OPTION_ID\" } }) { projectV2Item { id } } }"
-            }"
+            -d "$QUERY"
         
