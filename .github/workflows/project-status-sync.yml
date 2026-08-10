@@ -90,3 +90,14 @@ jobs:
           fi
 
           echo "PROJECT_PAT detected"
+
+      - name: Test GraphQL Access
+        env:
+            PROJECT_PAT: ${{ secrets.PROJECT_PAT }}
+            PROJECT_ID: ${{ vars.PROJECT_ID }}
+        run: |
+            curl -s \
+                -H "Authorization: Bearer $PROJECT_PAT" \
+                -H "Content-Type: application/json" \
+                -X POST https://api.github.com/graphql \
+                -d "{\"query\":\"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { title id } } }\"}"
