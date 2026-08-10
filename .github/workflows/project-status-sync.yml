@@ -114,6 +114,18 @@ jobs:
             -X POST https://api.github.com/graphql \
             -d "{\"query\":\"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { items(first: 20) { nodes { id content { ... on Issue { number title } } } } } } }\"}"
 
+      - name: Discover Status Field Metadata
+        env:
+          PROJECT_PAT: ${{ secrets.PROJECT_PAT }}
+          PROJECT_ID: ${{ vars.PROJECT_ID }}
+        run: |
+
+          curl -s \
+            -H "Authorization: Bearer $PROJECT_PAT" \
+            -H "Content-Type: application/json" \
+            -X POST https://api.github.com/graphql \
+            -d "{\"query\":\"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { fields(first: 20) { nodes { __typename ... on ProjectV2SingleSelectField { id name options { id name } } } } } } }\"}"
+
       - name: Update Project Item Status
         env:
           PROJECT_PAT: ${{ secrets.PROJECT_PAT }}
